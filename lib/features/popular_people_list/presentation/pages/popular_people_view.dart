@@ -4,6 +4,8 @@ import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 
 import '../../../../dependencies/service_locator.dart';
 import '../../../../utils/constants.dart';
+import '../../../person_details/presentation/pages/person_details_view.dart';
+import '../../../person_details/presentation/pages/person_details_view_arguments.dart';
 import '../../domain/entities/popular_person.dart';
 import '../bloc/popular_people_list_bloc.dart';
 
@@ -55,7 +57,10 @@ class _PopularPeopleViewState extends State<PopularPeopleView> {
                                 padding:
                                     const EdgeInsets.only(top: 8, bottom: 8),
                                 child: ListTile(
-                                  onTap: () {},
+                                  onTap: () => Navigator.pushNamed(
+                                      context, PersonDetailsView.routeName,
+                                      arguments: PersonDetailsViewArguments(
+                                          person: _personsList[index])),
                                   leading: CircleAvatar(
                                     radius: 30,
                                     backgroundImage: NetworkImage(imageBaseURL +
