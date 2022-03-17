@@ -1,4 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:popular_people_app/features/popular_people_list/data/models/popular_person_model.dart';
+import 'package:popular_people_app/features/popular_people_list/domain/entities/popular_person.dart';
 
 void main() {
   const personModel = PopularPersonModel(
