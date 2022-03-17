@@ -9,6 +9,7 @@ import 'package:popular_people_app/features/popular_people_list/data/datasources
 import 'package:popular_people_app/features/popular_people_list/data/datasources/popular_people_remote_data_source.dart';
 import 'package:popular_people_app/features/popular_people_list/data/models/popular_people_search_result_model.dart';
 import 'package:popular_people_app/features/popular_people_list/data/repositories/popular_people_repo_implementation.dart';
+
 import 'popular_person_repo_test.mocks.dart';
 
 @GenerateMocks(
@@ -74,7 +75,7 @@ void main() {
       // assert
       verify(mockNetworkInfo.isConnected);
       verify(mockRemoteDataSource.getPopularPersonsList(pageNo)).called(1);
-      expect(result, Right(searchResultModel));
+      expect(result, const Right(searchResultModel));
     });
 
     test('should throw server exception when request failed', () async {
