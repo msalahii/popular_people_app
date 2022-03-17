@@ -4,7 +4,7 @@ class PopularPersonModel extends PopularPerson {
   const PopularPersonModel({
     required int personID,
     required String name,
-    required String imageURL,
+    required String? imageURL,
     required String department,
   }) : super(
             personID: personID,
@@ -15,9 +15,9 @@ class PopularPersonModel extends PopularPerson {
   factory PopularPersonModel.fromJson(Map<String, dynamic> json) {
     return PopularPersonModel(
         personID: json['id'],
-        name: json['name'],
+        name: json['name'] ?? 'N/A',
         imageURL: json['profile_path'],
-        department: json['known_for_department']);
+        department: json['known_for_department'] ?? 'Not Specified');
   }
 
   toJson() => {

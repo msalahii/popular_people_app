@@ -21,7 +21,7 @@ class PopularPeopleRepositoryImplementation extends PopularPeopleRepository {
   Future<Either<Failure, PopularPeopleSearchResultModel>>
       fetchPopularPersonsList(int pageNo) async {
     PopularPeopleSearchResultModel searchResult;
-    try {
+    // try {
       final isConnected = await networkInfo.isConnected;
       if (!isConnected) {
         final personsList = localDataSource.getPopularPersonsList();
@@ -34,13 +34,13 @@ class PopularPeopleRepositoryImplementation extends PopularPeopleRepository {
             searchResult.personsList.map((e) => e.toJson()).toList());
         await localDataSource.storePopularPersonsList(personsListJson);
       }
-    } on ServerException catch (e) {
-      return Left(ServerFailure(failureMessage: e.exceptionMessage));
-    } on NoCachedDataFoundException {
-      return const Left(ServerFailure(failureMessage: "No Cached Data Found"));
-    } catch (e) {
-      return Left(InternetFailure());
-    }
+    // } on ServerException catch (e) {
+    //   return Left(ServerFailure(failureMessage: e.exceptionMessage));
+    // } on NoCachedDataFoundException {
+    //   return const Left(ServerFailure(failureMessage: "No Cached Data Found"));
+    // } catch (e) {
+    //   return Left(InternetFailure());
+    // }
 
     return Right(searchResult);
   }
