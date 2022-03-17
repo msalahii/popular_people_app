@@ -1,9 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:popular_people_app/features/person_details/presentation/pages/person_details_view_arguments.dart';
 
 import '../../../../dependencies/service_locator.dart';
 import '../../../../utils/constants.dart';
+import '../../../image_viewer/presentation/pages/image_viewer_arguments.dart';
+import '../../../image_viewer/presentation/pages/image_viewer_view.dart';
 import '../bloc/person_details_bloc.dart';
 
 class PersonDetailsView extends StatefulWidget {
@@ -47,7 +50,7 @@ class _PersonDetailsViewState extends State<PersonDetailsView> {
                             leading: CircleAvatar(
                               radius: 30,
                               backgroundImage: NetworkImage(imageBaseURL +
-                                  widget.arguments.person.imageURL),
+                                  widget.arguments.person.imageURL!),
                             ),
                             title: Text(widget.arguments.person.name),
                             subtitle: Text(widget.arguments.person.department),
@@ -77,11 +80,41 @@ class _PersonDetailsViewState extends State<PersonDetailsView> {
                                   ),
                                   itemBuilder: (context, index) {
                                     return InkWell(
-                                      onTap: (){},
-                                      child: Image(
+                                      onTap: () => Navigator.pushNamed(
+                                          context, ImageViewerView.routeName,
+                                          arguments: ImageViewerViewArguments(
+                                              imageURL: state.imagesList[index],
+                                              name: widget
+                                                  .arguments.person.name)),
+                                      child: CachedNetworkImage(
+                                        imageBuilder:
+                                            (context, imageProvider) =>
+                                                Container(
+                                          // width: 60.0,
+                                          // height: 60.0,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(
+                                                image: imageProvider,
+                                                fit: BoxFit.cover),
+                                          ),
+                                        ),
+                                        imageUrl: imageBaseURL +
+                                            state.imagesList[index],
+                                        placeholder: (context, url) =>
+                                            const CircularProgressIndicator(
+                                          color: Colors.blue,
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            const Icon(
+                                          Icons.error,
+                                          color: Colors.white,
+                                        ),
+                                      ) /*  Image(
                                         image: NetworkImage(
                                             state.imagesList[index]),
-                                      ),
+                                      ) */
+                                      ,
                                     );
                                   }),
                             )

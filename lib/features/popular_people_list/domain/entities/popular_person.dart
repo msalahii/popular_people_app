@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 class PopularPerson extends Equatable {
   final int personID;
   final String name;
-  final String imageURL;
+  final String? imageURL;
   final String department;
 
   const PopularPerson(

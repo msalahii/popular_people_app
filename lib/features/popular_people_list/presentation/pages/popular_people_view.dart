@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
@@ -8,7 +9,6 @@ import '../../../person_details/presentation/pages/person_details_view.dart';
 import '../../../person_details/presentation/pages/person_details_view_arguments.dart';
 import '../../domain/entities/popular_person.dart';
 import '../bloc/popular_people_list_bloc.dart';
-
 
 class PopularPeopleView extends StatefulWidget {
   static const String routeName = '/popularPersons';
@@ -61,10 +61,29 @@ class _PopularPeopleViewState extends State<PopularPeopleView> {
                                       context, PersonDetailsView.routeName,
                                       arguments: PersonDetailsViewArguments(
                                           person: _personsList[index])),
-                                  leading: CircleAvatar(
-                                    radius: 30,
-                                    backgroundImage: NetworkImage(imageBaseURL +
-                                        _personsList[index].imageURL),
+                                  leading: CachedNetworkImage(
+                                    imageBuilder: (context, imageProvider) =>
+                                        Container(
+                                      width: 60.0,
+                                      height: 60.0,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                            image: imageProvider,
+                                            fit: BoxFit.cover),
+                                      ),
+                                    ),
+                                    imageUrl: imageBaseURL +
+                                        _personsList[index].imageURL!,
+                                    placeholder: (context, url) =>
+                                        const CircularProgressIndicator(
+                                      color: Colors.blue,
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(
+                                      Icons.error,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                   title: Text(_personsList[index].name),
                                 ),
